@@ -1,1 +1,1 @@
-export const SUCCESS = '200000';
+export const SUCCESS = 200;

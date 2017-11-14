@@ -113,7 +113,7 @@ export default class UserForm extends Component {
           />
           {
             actionType === 'login' ?
-              <Link to={'/reset-password'} className="forget-password">忘记密码</Link>
+              <Link to={'/register'} className="forget-password">申请账户</Link>
               :
               null
           }
@@ -137,8 +137,6 @@ export default class UserForm extends Component {
     const { handleSubmit } = this.props;
     const { formData } = this.state;
     handleSubmit(formData, (response) => {
-      console.log('responseses')
-      console.log(response,'response')
       if (response.status = ResponseStatus.SUCCESS) {
         sessionStorage.setItem('profile', encodeURIComponent(JSON.stringify(response.data)));
         this.context.router.push('/users');

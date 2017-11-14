@@ -17,7 +17,6 @@ export default class UserListPage extends Component {
 
   render() {
     const { userList } = this.props;
-    console.log(userList,'userList')
     return (
       <div className="page-content">
         <Table
@@ -26,27 +25,27 @@ export default class UserListPage extends Component {
           headerHeight={40}
           rowHeight={40}
         >
-          <Column width={100} resizable>
+          <Column width={200}>
             <HeaderCell>ID</HeaderCell>
             <Cell dataKey="id" />
           </Column>
-          <Column width={150} resizable>
+          <Column width={200}>
             <HeaderCell>用户名</HeaderCell>
             <Cell dataKey="username" />
           </Column>
-          <Column width={100} resizable>
+          <Column width={200}>
             <HeaderCell>昵称</HeaderCell>
             <Cell dataKey="nick" />
           </Column>
-          <Column width={100} resizable>
+          <Column width={200}>
             <HeaderCell>创建时间</HeaderCell>
             <Cell dataKey="createdAt" />
           </Column>
-          <Column width={100} resizable>
+          <Column width={200}>
             <HeaderCell>更新时间</HeaderCell>
             <Cell dataKey="updatedAt" />
           </Column>
-          <Column width={100} resizable>
+          <Column width={200}>
             <HeaderCell>最后登陆时间</HeaderCell>
             <Cell dataKey="last" />
           </Column>

@@ -1,10 +1,12 @@
+import goHomePage from '../utils/goHomePage';
+
 module.exports = {
   childRoutes: [{
     path: '/',
     component: require('../containers/Index').default,
-    indexRoute: { onEnter: (nextState, replace) => replace('/users') },
+    indexRoute: { onEnter: (nextState, replace) => goHomePage(replace) },
     childRoutes: [
-      require('./users'),
+      require('./main').default,
       require('./login'),
       require('./register'),
       require('./resetPassword'),

@@ -25,8 +25,8 @@ export function resetPassword(args = {}, callback) {
   const requestParams = {
     args,
     method: 'post',
-    url: APIs.API_RE,
-    type: types.LOUGOUT
+    url: APIs.API_RESET_PASSWORD,
+    type: types.RESET_PASSWORD
   };
   return fetchData(requestParams, callback);
 }

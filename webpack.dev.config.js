@@ -18,12 +18,12 @@ const config = {
     hot: true,
     contentBase: resolve(__dirname, ''),
     publicPath: '/',
-    proxy: {
-      '/api/*': {
-        target: 'http://z005.kmtongji.com/',
-        secure: false
-      }
-    }
+    // proxy: {
+    //   '/api/*': {
+    //     target: 'http://z005.kmtongji.com/',
+    //     secure: false
+    //   }
+    // }
   },
   plugins: [
     ...commonPlugins,

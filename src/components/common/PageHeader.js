@@ -19,8 +19,9 @@ class PageHeader extends Component {
   handleLogout = () => {
     const { onLogout } = this.context.events;
     onLogout({}, (response) => {
-      if (response.code === ResponseStatus.SUCCESS) {
+      if (response.status === ResponseStatus.SUCCESS) {
         sessionStorage.removeItem('profile');
+        this.context.router.push('/login');
       }
     });
   }
@@ -42,7 +43,7 @@ class PageHeader extends Component {
             {
               profile ?
                 <Nav pullRight>
-                  <Nav.Item href="/#/login" >
+                  <Nav.Item >
                     <IconFont onClick={this.handleLogout} icon="power-off"></IconFont>
                   </Nav.Item>
                 </Nav>
