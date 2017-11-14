@@ -3,7 +3,29 @@ import fetchJsonp from 'fetch-jsonp';
 
 export function fetchData(requestParams, callback) {
   const { args = {}, type, method, url, requestType } = requestParams;
-  const requestFunc = requestType === 'jsonp' ? fetchJsonp(url) : axios[method](url, args);
+  // const requestFunc = requestType === 'jsonp' ? 
+  // fetchJsonp(url) 
+  // : 
+  // axios[method](url, args);
+  const params = method === "get" ? {params:args}:{body:JSON.stringify(args)};
+  const requestFunc = fetch(url, {
+    method,
+    credentials: 'include'  ,
+    mode:"cors",
+    headers:{
+      'Access-Control-Allow-Origin':'*',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Credentials":"true"
+      //'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    },
+    ...params
+  }).then(function(response) { 
+    return response.json();
+  }).then(function(j) {
+    console.log(j); 
+    return j;
+  });
   return (dispatch) => {
     dispatch({
       type: type.concat('_BEGIN')

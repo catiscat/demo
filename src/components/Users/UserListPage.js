@@ -17,11 +17,12 @@ export default class UserListPage extends Component {
 
   render() {
     const { userList } = this.props;
+    console.log(userList,"userListuserList")
     return (
       <div className="page-content">
         <Table
           height={500}
-          data={userList || []}
+          data={userList}
           headerHeight={40}
           rowHeight={40}
         >
