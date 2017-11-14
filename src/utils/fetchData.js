@@ -1,39 +1,38 @@
 import axios from 'axios';
+import fetchJsonp from 'fetch-jsonp';
 
 export function fetchData(requestParams, callback) {
-  const { args = {}, type, method, url } = requestParams;
+  const { args = {}, type, method, url, requestType } = requestParams;
+  const requestFunc = requestType === 'jsonp' ? fetchJsonp(url) : axios[method](url, args);
   return (dispatch) => {
     dispatch({
       type: type.concat('_BEGIN')
     });
 
     const promise = new Promise((resolve, reject) => {
-      const paramsName = method === 'get' ? 'params' : 'data';
-      axios[method](url, {
-        [paramsName]: args,
-      })
-        .then(
+      requestFunc.then(
         (res) => {
           const {
-            code,
-            message = '',
-          } = res.data;
-          if (code === '200000') {
+            err
+          } = res;
+          if (!err) {
             dispatch({
               type: type.concat('_SUCCESS'),
-              data: res.data
+              status: 'SUCCESS',
+              data: res
             });
             resolve();
           } else {
             dispatch({
               type: type.concat('_FAILURE'),
-              data: { error: message }
+              status: 'FAILURE',
+              data: res
             });
-            reject(message);
+            reject(err);
           }
-          callback && callback(res.data);
+          callback && callback(res);
         }
-        )
+      )
         .catch(
         (err) => {
           dispatch({

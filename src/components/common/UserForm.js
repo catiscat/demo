@@ -137,7 +137,9 @@ export default class UserForm extends Component {
     const { handleSubmit } = this.props;
     const { formData } = this.state;
     handleSubmit(formData, (response) => {
-      if (response.code = ResponseStatus.SUCCESS) {
+      console.log('responseses')
+      console.log(response,'response')
+      if (response.status = ResponseStatus.SUCCESS) {
         sessionStorage.setItem('profile', encodeURIComponent(JSON.stringify(response.data)));
         this.context.router.push('/users');
       } else {

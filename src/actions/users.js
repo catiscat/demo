@@ -7,7 +7,8 @@ export function getUsers(args = {}, callback) {
     args,
     method: 'get',
     url: APIs.API_GET_USERS,
-    type: types.FETCH_USERS
+    type: types.FETCH_USERS,
+    requestType: 'jsonp',
   };
   return fetchData(requestParams, callback);
 }

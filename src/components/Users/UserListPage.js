@@ -7,6 +7,7 @@ export default class UserListPage extends Component {
     data: PropTypes.array,
     status: PropTypes.string,
     onFetchUsers: PropTypes.func,
+    userList: PropTypes.array,
   }
 
   componentDidMount() {
@@ -16,21 +17,38 @@ export default class UserListPage extends Component {
 
   render() {
     const { userList } = this.props;
+    console.log(userList,'userList')
     return (
       <div className="page-content">
         <Table
           height={500}
-          data={userList}
+          data={userList || []}
           headerHeight={40}
           rowHeight={40}
         >
-          <Column width={200} fixed resizable>
-            <HeaderCell>Type</HeaderCell>
-            <Cell dataKey="type" />
-          </Column>
-          <Column width={120} resizable>
+          <Column width={100} resizable>
             <HeaderCell>ID</HeaderCell>
             <Cell dataKey="id" />
+          </Column>
+          <Column width={150} resizable>
+            <HeaderCell>用户名</HeaderCell>
+            <Cell dataKey="username" />
+          </Column>
+          <Column width={100} resizable>
+            <HeaderCell>昵称</HeaderCell>
+            <Cell dataKey="nick" />
+          </Column>
+          <Column width={100} resizable>
+            <HeaderCell>创建时间</HeaderCell>
+            <Cell dataKey="createdAt" />
+          </Column>
+          <Column width={100} resizable>
+            <HeaderCell>更新时间</HeaderCell>
+            <Cell dataKey="updatedAt" />
+          </Column>
+          <Column width={100} resizable>
+            <HeaderCell>最后登陆时间</HeaderCell>
+            <Cell dataKey="last" />
           </Column>
         </Table>
       </div>

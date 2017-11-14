@@ -14,7 +14,7 @@ export const CustomField = ({ name, label, accepter, error, icon, ...props }) =>
         <InputGroup.Addon>
           <IconFont icon={icon} />
         </InputGroup.Addon>
-       : null
+       : null 
       }
     </InputGroup>
     <Field name={name} accepter={accepter} {...props} />

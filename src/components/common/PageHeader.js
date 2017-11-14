@@ -16,7 +16,7 @@ class PageHeader extends Component {
     activeItem: PropTypes.string
   }
 
-  handleLogout() {
+  handleLogout = () => {
     const { onLogout } = this.context.events;
     onLogout({}, (response) => {
       if (response.code === ResponseStatus.SUCCESS) {
