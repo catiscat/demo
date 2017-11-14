@@ -7,7 +7,7 @@ module.exports = [
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   }),
   new HtmlwebpackPlugin({
-    title: 'RSuite example',
+    title: 'userManagement example',
     filename: 'index.html',
     template: 'src/index.html',
     theme: 'default',

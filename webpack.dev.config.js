@@ -17,7 +17,13 @@ const config = {
   devServer: {
     hot: true,
     contentBase: resolve(__dirname, ''),
-    publicPath: '/'
+    publicPath: '/',
+    proxy: {
+      '/api/*': {
+        target: 'http://z005.kmtongji.com/',
+        secure: false
+      }
+    }
   },
   plugins: [
     ...commonPlugins,

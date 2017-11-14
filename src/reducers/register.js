@@ -4,9 +4,9 @@ const initialState = {
   data: []
 };
 
-export default function login(state = initialState, action) {
+export default function register(state = initialState, action) {
   switch (action.type) {
-    case types.LOGIN:
+    case types.REGISTER:
       return Object.assign({}, state, {
         status: action.status
       });

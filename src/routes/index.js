@@ -5,7 +5,8 @@ module.exports = {
     indexRoute: { onEnter: (nextState, replace) => replace('/users') },
     childRoutes: [
       require('./users'),
-      require('./login')
+      require('./login'),
+      require('./register')
     ]
   }]
 };

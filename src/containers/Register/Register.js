@@ -1,10 +1,10 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../actions/login';
-import { LoginPage } from '../../components/Login';
+import * as actionCreators from '../../actions/register';
+import { RegisterPage } from '../../components/Register';
 
 function mapState2Props(state) {
-  const currentStatus = state.store.login;
+  const currentStatus = state.store.register;
   return {
     status: currentStatus.status
   };
@@ -13,8 +13,8 @@ function mapState2Props(state) {
 function mapDispatch2Props(dispatch) {
   const actions = bindActionCreators(actionCreators, dispatch);
   return {
-    onLogin: actions.login
+    onRegister: actions.register
   };
 }
 
-export default connect(mapState2Props, mapDispatch2Props)(LoginPage);
+export default connect(mapState2Props, mapDispatch2Props)(RegisterPage);

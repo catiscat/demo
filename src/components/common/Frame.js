@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import { getHeight, addClass, removeClass } from 'dom-lib';
 
-import PageHeader from '../components/PageHeader';
-import PageSidebar from '../components/PageSidebar';
-import PageFooter from '../components/PageFooter';
+import PageHeader from './PageHeader';
+import PageSidebar from './PageSidebar';
+import PageFooter from './PageFooter';
 
 const propTypes = {
   activeItem: PropTypes.string,

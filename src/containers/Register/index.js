@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import Frame from '../../components/common/Frame';
-import Login from './Login';
+import Register from './Register';
 
-class LoginView extends Component {
+class RegisterView extends Component {
   render() {
     return (
       <Frame
         hideSidebar
       >
-        {this.props.children || <Login />}
+        {this.props.children || <Register />}
       </Frame>
     );
   }
 }
 
-export default LoginView;
+export default RegisterView;

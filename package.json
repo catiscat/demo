@@ -10,6 +10,7 @@
   "author": "mengjie.zhao",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.17.1",
     "classnames": ">=2.0.0",
     "dom-lib": "^0.2.3",
     "form-lib": "0.0.6",
