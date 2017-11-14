@@ -6,8 +6,8 @@ export function register(args = {}, callback) {
   const requestParams = {
     args,
     method: 'post',
-    url: APIs.API_LOGIN,
-    type: types.LOGIN
+    url: APIs.API_REGISTER,
+    type: types.REGISTER
   };
   return fetchData(requestParams, callback);
 }

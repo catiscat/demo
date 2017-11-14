@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { toggleClass } from 'dom-lib';
+import { IconFont } from 'rsuite';
 
 const propTypes = {
   open: PropTypes.bool,
@@ -32,11 +33,11 @@ class SidebarMenu extends Component {
       return (
         <li
           className={className}
-          key={index}
+          key={item.localeKey}
           ref={item.localeKey + index}
         >
           <a >
-            <i className={item.icon} />
+            <IconFont icon={item.icon} />
             <span className="title">{item.localeKey}</span>
             <span className="arrow" />
           </a>

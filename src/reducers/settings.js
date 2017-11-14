@@ -3,7 +3,7 @@ const initialState = {
   menuItems: [
     {
       localeKey: 'User',
-      icon: 'icon icon-github',
+      icon: 'users',
       children: [
         {
           localeKey: 'Users',

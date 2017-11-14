@@ -6,7 +6,8 @@ module.exports = {
     childRoutes: [
       require('./users'),
       require('./login'),
-      require('./register')
+      require('./register'),
+      require('./resetPassword'),
     ]
   }]
 };

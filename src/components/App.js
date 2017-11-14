@@ -1,23 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const propTypes = {
-  menuItems: PropTypes.array,
-};
 
-const contextTypes = {
-  router: PropTypes.object,
-};
+export default class App extends Component {
+  static propTypes = {
+    menuItems: PropTypes.array,
+    onLogout: PropTypes.func,
+  }
 
-const childContextTypes = {
-  menuItems: PropTypes.array,
-};
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
-class App extends Component {
+  static childContextTypes = {
+    menuItems: PropTypes.array,
+    events: PropTypes.object,
+  };
 
   getChildContext() {
+    const { onLogout, menuItems } = this.props;
     return {
-      menuItems: this.props.menuItems,
+      menuItems,
+      events: {
+        onLogout
+      },
     };
   }
 
@@ -31,9 +37,4 @@ class App extends Component {
   }
 }
 
-App.propTypes = propTypes;
-App.childContextTypes = childContextTypes;
-App.contextTypes = contextTypes;
-
-export default App;
 

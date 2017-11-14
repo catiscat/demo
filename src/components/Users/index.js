@@ -1,1 +1,1 @@
-export UsersTable from './UsersTable';
+export { default as UserListPage } from './UserListPage';

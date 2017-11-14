@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import UserForm from '../common/UserForm';
 
-export default class LoginPage extends Component {
+export default class ResetPasswordPage extends Component {
 
   static propTypes = {
-    onLogin: PropTypes.func.isRequired,
+    onResetPassword: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -15,19 +15,19 @@ export default class LoginPage extends Component {
     };
   }
 
-  getLoginForm() {
+  getResetPasswordForm() {
     const { errors } = this.state;
-    const { onLogin } = this.props;
+    const { onResetPassword } = this.props;
     return (
       <UserForm
-        actionType="login"
+        actionType="resetPassword"
         errors={errors}
-        handleSubmit={onLogin}
+        handleSubmit={onResetPassword}
       />
     );
   }
 
   render() {
-    return this.getLoginForm();
+    return this.getResetPasswordForm();
   }
 }

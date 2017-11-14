@@ -1,26 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Header, Navbar, Nav } from 'rsuite';
+import { Header, Navbar, Nav, IconFont } from 'rsuite';
 import { Link } from 'react-router';
-
-const propTypes = {
-  brand: PropTypes.node,
-  menuItems: PropTypes.array,
-  activeItem: PropTypes.string
-};
+import * as ResponseStatus from '../../constants/ResponseStatus';
 
 const contextTypes = {
-  router: React.PropTypes.object.isRequired
+  router: React.PropTypes.object.isRequired,
+  events: React.PropTypes.object.isRequired,
 };
 
 class PageHeader extends Component {
 
-  renderActiveItem(activeKey) {
-    const { activeItem } = this.props;
-    return activeItem === activeKey ? 'active' : null;
+  static propTypes = {
+    menuItems: PropTypes.array,
+    activeItem: PropTypes.string
+  }
+
+  handleLogout() {
+    const { onLogout } = this.context.events;
+    onLogout({}, (response) => {
+      if (response.code === ResponseStatus.SUCCESS) {
+        sessionStorage.removeItem('profile');
+      }
+    });
   }
 
   render() {
+    const profile = sessionStorage.getItem('profile');
     return (
       <Header inverse >
         <div className="page-container">
@@ -33,9 +39,17 @@ class PageHeader extends Component {
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-            <Nav pullRight>
-              <Nav.Item href="https://github.com/rsuite/rsuite-example-admin" >Github</Nav.Item>
-            </Nav>
+            {
+              profile ?
+                <Nav pullRight>
+                  <Nav.Item href="/#/login" >
+                    <IconFont onClick={this.handleLogout} icon="power-off"></IconFont>
+                  </Nav.Item>
+                </Nav>
+                :
+                null
+            }
+
           </Navbar.Collapse>
         </div>
       </Header>
@@ -43,7 +57,6 @@ class PageHeader extends Component {
   }
 }
 
-PageHeader.propTypes = propTypes;
 PageHeader.contextTypes = contextTypes;
 
 export default PageHeader;
