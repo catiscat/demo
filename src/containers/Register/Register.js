@@ -4,9 +4,8 @@ import * as actionCreators from '../../actions/register';
 import { RegisterPage } from '../../components/Register';
 
 function mapState2Props(state) {
-  const currentStatus = state.store.register;
   return {
-    status: currentStatus.status
+    ...state.store.register
   };
 }
 

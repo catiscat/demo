@@ -1,30 +1,40 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Column, Cell, HeaderCell } from 'rsuite-table';
+import * as ResponseStatus from '../../constants/ResponseStatus';
 
 export default class UserListPage extends Component {
   static propTypes = {
-    data: PropTypes.array,
-    status: PropTypes.string,
     onFetchUsers: PropTypes.func,
-    userList: PropTypes.array,
+    userList: PropTypes.object,
   }
+
+  static contextTypes = {
+    router: PropTypes.object,
+  };
 
   componentDidMount() {
     const { onFetchUsers } = this.props;
-    onFetchUsers();
+    onFetchUsers({}, (response) => {
+      if (response.status === ResponseStatus.FAILURE) {
+        if (response.errno === ResponseStatus.UNAUTHORIZED) {
+          this.context.router.push('/login');
+        }
+      }
+    });
   }
 
   render() {
     const { userList } = this.props;
-    console.log(userList,"userListuserList")
+    const loading = userList && userList.data ? false : true;
     return (
       <div className="page-content">
         <Table
-          height={500}
-          data={userList}
+          height={950}
+          data={userList && userList.data}
           headerHeight={40}
           rowHeight={40}
+          loading={loading}
         >
           <Column width={200}>
             <HeaderCell>ID</HeaderCell>

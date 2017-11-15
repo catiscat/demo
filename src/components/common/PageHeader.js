@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Header, Navbar, Nav, IconFont } from 'rsuite';
 import { Link } from 'react-router';
 import * as ResponseStatus from '../../constants/ResponseStatus';
+import * as profileTool from '../../utils/profileTool';
 
 const contextTypes = {
   router: React.PropTypes.object.isRequired,
@@ -13,21 +14,21 @@ class PageHeader extends Component {
 
   static propTypes = {
     menuItems: PropTypes.array,
-    activeItem: PropTypes.string
   }
 
   handleLogout = () => {
     const { onLogout } = this.context.events;
-    onLogout({}, (response) => {
-      if (response.status === ResponseStatus.SUCCESS) {
-        sessionStorage.removeItem('profile');
-        this.context.router.push('/login');
-      }
-    });
+    sessionStorage.removeItem('profile');
+    this.context.router.push('/login');
+    onLogout();
+  }
+
+  editUser = () => {
+    this.context.router.push('/reset-password');
   }
 
   render() {
-    const profile = sessionStorage.getItem('profile');
+    const username = profileTool.getUsername();
     return (
       <Header inverse >
         <div className="page-container">
@@ -41,8 +42,11 @@ class PageHeader extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             {
-              profile ?
+              username ?
                 <Nav pullRight>
+                  <Nav.Item >
+                    <IconFont onClick={this.editUser} icon="edit2"></IconFont>
+                  </Nav.Item>
                   <Nav.Item >
                     <IconFont onClick={this.handleLogout} icon="power-off"></IconFont>
                   </Nav.Item>

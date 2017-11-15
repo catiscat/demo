@@ -1,18 +1,7 @@
-import { FETCH_USERS } from '../constants/ActionTypes';
+import * as types from '../constants/ActionTypes';
+import { fetchDataReducer } from '../utils/fetchData';
 
 
-const initialState = {
-  data: []
-};
-
-export default function users(state = initialState, action) {
-  switch (action.type) {
-    case FETCH_USERS:
-      return Object.assign({}, state, {
-        status: action.status,
-        data: action.items
-      });
-    default:
-      return state;
-  }
+export default function users(state, action) {
+  return fetchDataReducer(state, action, types.FETCH_USERS, 'userList');
 }

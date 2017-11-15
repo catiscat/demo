@@ -15,15 +15,14 @@ const UserFormModel = SchemaModel({
 export default class UserForm extends Component {
 
   static propTypes = {
-    errors: PropTypes.object,
     formData: PropTypes.object,
     actionType: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
-    router: PropTypes.object,
   }
 
   static contextTypes = {
     router: PropTypes.object,
+    events: PropTypes.object,
   };
 
   constructor(props) {
@@ -35,10 +34,9 @@ export default class UserForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { formData, errors } = nextProps;
+    const { formData } = nextProps;
     this.setState({
       formData,
-      errors,
     });
   }
 
@@ -76,10 +74,9 @@ export default class UserForm extends Component {
           ref={(ref) => {
             this.form = ref;
           }}
+          checkDelay={200}
           onChange={(value) => { this.handleChangeFormData(value) }}
-          onCheck={(errors) => {
-            this.setState({ errors });
-          }}
+          onCheck={(errors) => { this.setState({ errors }) }}
           defaultValues={this.state.formData}
           model={UserFormModel}
           checkTrigger="blur"
@@ -133,18 +130,81 @@ export default class UserForm extends Component {
     });
   }
 
+  handleLoginResponse(response) {
+    if (response.status === ResponseStatus.SUCCESS) {
+      sessionStorage.setItem('profile', encodeURIComponent(JSON.stringify(response)));
+      this.context.router.push('/users');
+    } else {
+      this.setState({
+        errors: {
+          password: response.err && response.err.message
+        }
+      });
+    }
+  }
+
+  handleRegisterError(response) {
+    const config = [
+      {
+        name: 'MissingPasswordError',
+        value: 'password'
+      },
+      {
+        name: 'MissingUsernameError',
+        value: 'username'
+      },
+      {
+        name: 'UserExistsError',
+        value: 'username'
+      }
+    ];
+
+    config.map((item) => {
+      if (item.name === response.name) {
+        this.setState({
+          errors: { [item.value]: response.message }
+        });
+      }
+    });
+  }
+
+  handleRegisterResponse(response) {
+    if (!response.message) {
+      this.context.router.push('/login');
+    } else {
+      this.handleRegisterError(response);
+    }
+  }
+
+  handleResetPasswordResponse(response) {
+    if (response.errno === 0) {
+      sessionStorage.removeItem('profile');
+      this.context.events.onLogout();
+      this.context.router.push('/login');
+
+    } else {
+      this.setState({
+        errors: response.msg
+      });
+    }
+  }
+
+  handleSubmitResponse = (response) => {
+    const { actionType } = this.props;
+    if (actionType === 'login') {
+      this.handleLoginResponse(response);
+    } else if (actionType === 'register') {
+      this.handleRegisterResponse(response);
+    } else if (actionType === 'resetPassword') {
+      this.handleResetPasswordResponse(response);
+    }
+  }
+
   handleSubmitData = () => {
     const { handleSubmit } = this.props;
     const { formData } = this.state;
     handleSubmit(formData, (response) => {
-      if (response.status = ResponseStatus.SUCCESS) {
-        sessionStorage.setItem('profile', encodeURIComponent(JSON.stringify(response.data)));
-        this.context.router.push('/users');
-      } else {
-        this.setState({
-          errors: response.errors
-        });
-      }
+      this.handleSubmitResponse(response);
     });
   }
 

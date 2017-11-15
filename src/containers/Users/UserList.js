@@ -5,10 +5,8 @@ import { UserListPage } from '../../components/Users';
 
 
 function mapState2Props(state) {
-  const currentStatus = state.store.users;
   return {
-    userList: currentStatus.data,
-    status: currentStatus.status
+    ...state.store.users
   };
 }
 

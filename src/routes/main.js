@@ -1,6 +1,8 @@
+import * as profileTool from '../utils/profileTool';
+
 export default {
   onEnter: (nextState, replace) => {
-    if (!sessionStorage.getItem('profile')) {
+    if (!profileTool.getUsername()) {
       replace('/login');
     }
   },

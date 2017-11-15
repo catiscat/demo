@@ -8,20 +8,11 @@ export default class ResetPasswordPage extends Component {
     onResetPassword: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
-
   getResetPasswordForm() {
-    const { errors } = this.state;
     const { onResetPassword } = this.props;
     return (
       <UserForm
         actionType="resetPassword"
-        errors={errors}
         handleSubmit={onResetPassword}
       />
     );

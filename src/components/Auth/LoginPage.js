@@ -8,20 +8,11 @@ export default class LoginPage extends Component {
     onLogin: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
-
   getLoginForm() {
-    const { errors } = this.state;
     const { onLogin } = this.props;
     return (
       <UserForm
         actionType="login"
-        errors={errors}
         handleSubmit={onLogin}
       />
     );

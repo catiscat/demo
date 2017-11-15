@@ -4,9 +4,8 @@ import * as actionCreators from '../../actions/auth';
 import { ResetPasswordPage } from '../../components/Auth';
 
 function mapState2Props(state) {
-  const currentStatus = state.store.auth;
   return {
-    status: currentStatus.status
+    ...state.store.auth
   };
 }
 

@@ -17,6 +17,13 @@ export default class App extends Component {
     events: PropTypes.object,
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+    };
+  }
+
   getChildContext() {
     const { onLogout, menuItems } = this.props;
     return {
@@ -31,10 +38,12 @@ export default class App extends Component {
     const { children } = this.props;
     return (
       <div className="page">
-        {children}
+        <div className="loader">
+          {children || null}
+        </div>
+
       </div>
     );
   }
 }
-
 

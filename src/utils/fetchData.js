@@ -1,42 +1,36 @@
-import axios from 'axios';
-import fetchJsonp from 'fetch-jsonp';
 
 export function fetchData(requestParams, callback) {
-  const { args = {}, type, method, url, requestType } = requestParams;
-  // const requestFunc = requestType === 'jsonp' ? 
-  // fetchJsonp(url) 
-  // : 
-  // axios[method](url, args);
-  const params = method === "get" ? {params:args}:{body:JSON.stringify(args)};
-  const requestFunc = fetch(url, {
+  const { args = {}, type, method, url } = requestParams;
+  const params = method === 'get' ? { params: args } : { body: JSON.stringify(args) };
+  const fetchResult = fetch(url, {
     method,
-    credentials: 'include'  ,
-    mode:"cors",
-    headers:{
-      'Access-Control-Allow-Origin':'*',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      "Access-Control-Allow-Credentials":"true"
-      //'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      'Access-Control-Allow-Credentials': 'true'
     },
     ...params
-  }).then(function(response) { 
+  }).then((response) => {
     return response.json();
-  }).then(function(j) {
-    console.log(j); 
-    return j;
+  }).then((data) => {
+    return data;
   });
+
   return (dispatch) => {
     dispatch({
       type: type.concat('_BEGIN')
     });
 
     const promise = new Promise((resolve, reject) => {
-      requestFunc.then(
+      fetchResult.then(
         (res) => {
           const {
             err
           } = res;
+          const result = err ? { status: 'FAILURE', ...res } : { status: 'SUCCESS', ...res };
           if (!err) {
             dispatch({
               type: type.concat('_SUCCESS'),
@@ -52,7 +46,7 @@ export function fetchData(requestParams, callback) {
             });
             reject(err);
           }
-          callback && callback(res);
+          callback && callback(result);
         }
       )
         .catch(
@@ -80,26 +74,34 @@ export function fetchDataReducer(state, action, type, variableName) {
     case type.concat('_BEGIN'):
       return {
         ...state,
-        pending: true,
-        error: null
+        [variableName]: {
+          pending: true,
+          error: null
+        }
       };
     case type.concat('_SUCCESS'):
       return {
         ...state,
-        pending: false,
-        error: null,
-        [variableName]: action.data,
+        [variableName]: {
+          data: action.data,
+          pending: false,
+          error: null,
+        }
       };
     case type.concat('_FAILURE'):
       return {
         ...state,
-        pending: false,
-        error: action.data.error,
+        [variableName]: {
+          pending: false,
+          error: action.data.error,
+        }
       };
     case type.concat('_DISMISS'):
       return {
         ...state,
-        error: null,
+        [variableName]: {
+          error: null,
+        }
       };
     default:
       return {
