@@ -15,7 +15,6 @@ const UserFormModel = SchemaModel({
 export default class UserForm extends Component {
 
   static propTypes = {
-    formData: PropTypes.object,
     actionType: PropTypes.string.isRequired,
     handleSubmit: PropTypes.func.isRequired,
   }
@@ -29,15 +28,16 @@ export default class UserForm extends Component {
     super(props);
     this.state = {
       errors: {},
-      formData: {},
+      formData: {}
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { formData } = nextProps;
-    this.setState({
-      formData,
-    });
+  componentDidMount() {
+    this.setState({ isMounted: true });
+  }
+
+  componentWillUnmount() {
+    this.setState({ isMounted: false });
   }
 
   getButtonText() {
@@ -66,7 +66,7 @@ export default class UserForm extends Component {
   }
 
   getUserForm() {
-    const { errors } = this.state;
+    const { errors = {}, isMounted } = this.state;
     const { actionType } = this.props;
     return (
       <div className="user-form">
@@ -76,10 +76,11 @@ export default class UserForm extends Component {
           }}
           checkDelay={200}
           onChange={(value) => { this.handleChangeFormData(value) }}
-          onCheck={(errors) => { this.setState({ errors }) }}
+          onCheck={(errors) => { isMounted && this.setState({ errors }) }}
           defaultValues={this.state.formData}
           model={UserFormModel}
           checkTrigger="blur"
+          onKeyDown={this.handleKeyDown}
         >
           {
             actionType === 'resetPassword' ? null :
@@ -123,19 +124,26 @@ export default class UserForm extends Component {
     );
   }
 
+  handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      this.handleSubmitData();
+    }
+  };
+
   handleChangeFormData(value) {
-    const { formData } = this.state;
-    this.setState({
+    const { formData, isMounted } = this.state;
+    isMounted && this.setState({
       formData: Object.assign({}, formData, value)
     });
   }
 
   handleLoginResponse(response) {
+    const { isMounted } = this.state;
     if (response.status === ResponseStatus.SUCCESS) {
       sessionStorage.setItem('profile', encodeURIComponent(JSON.stringify(response)));
       this.context.router.push('/users');
     } else {
-      this.setState({
+      isMounted && this.setState({
         errors: {
           password: response.err && response.err.message
         }
@@ -144,6 +152,7 @@ export default class UserForm extends Component {
   }
 
   handleRegisterError(response) {
+    const { isMounted } = this.state;
     const config = [
       {
         name: 'MissingPasswordError',
@@ -161,7 +170,7 @@ export default class UserForm extends Component {
 
     config.map((item) => {
       if (item.name === response.name) {
-        this.setState({
+        isMounted && this.setState({
           errors: { [item.value]: response.message }
         });
       }
@@ -177,13 +186,13 @@ export default class UserForm extends Component {
   }
 
   handleResetPasswordResponse(response) {
+    const { isMounted } = this.state;
     if (response.errno === 0) {
       sessionStorage.removeItem('profile');
       this.context.events.onLogout();
       this.context.router.push('/login');
-
     } else {
-      this.setState({
+      isMounted && this.setState({
         errors: response.msg
       });
     }
