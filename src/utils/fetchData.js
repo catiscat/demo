@@ -6,6 +6,9 @@ export function fetchData(requestParams, callback) {
     method,
     credentials: 'include',
     mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     ...params
   }).then((response) => {
     return response.json();
